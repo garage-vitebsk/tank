@@ -1,35 +1,42 @@
 #include <Arduino.h>
 
-// РљР»Р°СЃСЃ РґР»СЏ СѓРїСЂР°РІР»РµРЅРёСЏ РґРІРёР¶РµРЅРёРµРј
 class Motor {
-    public:
-        Motor(int, int, int); // РєРѕРЅСЃС‚СЂСѓРєС‚РѕСЂ
-        void setForward(); // СѓСЃС‚Р°РЅРѕРІРєР° РґРІРёР¶РµРЅРёСЏ РІРїРµСЂРµРґ
-        void setReverse(); // СѓСЃС‚Р°РЅРѕРІРєР° РґРІРёР¶РµРЅРёСЏ РЅР°Р·Р°Рґ
-        void stop();
-        void setSpeed(int); // СѓСЃС‚Р°РЅРѕРІРєР° СЃРєРѕСЂРѕСЃС‚Рё
-        byte getDirection(); // РїРѕР»СѓС‡РµРЅРёРµ РЅР°РїСЂР°РІР»РµРЅРёСЏ (+1, -1, 0)
-    private:
-        byte direction = 0; // РЅР°РїСЂР°РІР»РµРЅРёРµ
-        int pwmPin; //РЁР�Рњ-РІС‹С…РѕРґ
-        int pin1, pin2; //РїРёРЅС‹ РЅР°РїСЂР°РІР»РµРЅРёСЏ (+,- РІ СЃР»СѓС‡Р°Рµ РґРІРёР¶РµРЅРёСЏ РІРїРµСЂРµРґ)
+  public:
+    Motor(int, int, int);
+    void setForward();
+    void setReverse();
+    void stop();
+    void setSpeed(int);
+    byte getDirection();
+  private:
+    byte direction = 0;
+    int pwmPin;
+    int pin1, pin2;
 };
 
-//РљР»Р°СЃСЃ РґР»СЏ СѓРїСЂР°РІР»РµРЅРёСЏ РґРІРёР¶РµРЅРёРµРј
+class MotorDriver {
+  public:
+    MotorDriver(Motor*);
+
+    setSpeed(int);
+    int getSpeed();
+  private:
+    Motor* motor;
+    int speed = 0;
+};
+
 class DriveSystem {
-    public:
-        DriveSystem(Motor*, Motor*); // РєРѕРЅСЃС‚СЂСѓРєС‚РѕСЂ
+  public:
+    DriveSystem(Motor*, Motor*);
 
-        int getLeftSpeed(); // РїРѕР»СѓС‡РµРЅРёРµ Р»РµРІРѕР№ СЃРєРѕСЂРѕСЃС‚Рё
-        int getRightSpeed(); // РїРѕР»СѓС‡РµРЅРёРµ РїСЂР°РІРѕР№ СЃРєРѕСЂРѕСЃС‚Рё
+    int getLeftSpeed();
+    int getRightSpeed();
 
-        void setSpeed(int, int); // РјРµС‚РѕРґ СѓСЃС‚Р°РЅРѕРІРєРё СЃРєРѕСЂРѕСЃС‚Рё
-    private:
-        //СЃСЃС‹Р»РєРё РЅР° РјРѕС‚РѕСЂС‹
-        Motor *leftMotor;
-        Motor *rightMotor;
+    void setSpeed(int, int);
+  private:
+    MotorDriver *leftDriver;
+    MotorDriver *rightDriver;
 
-        //С…СЂР°РЅРёРјС‹Рµ СЃРєРѕСЂРѕСЃС‚Рё
-        int leftSpeed = 0;
-        int rightSpeed = 0;
+    int leftSpeed = 0;
+    int rightSpeed = 0;
 };
